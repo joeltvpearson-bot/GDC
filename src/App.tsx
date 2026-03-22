@@ -243,23 +243,33 @@ const Header = ({ onBookClick }: { onBookClick: () => void }) => {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${isScrolled ? 'bg-oatmeal/80 backdrop-blur-md py-4 shadow-sm' : 'py-8'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center gap-8">
-          <button className="md:hidden p-2">
-            <Menu size={24} />
+      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center md:justify-between relative">
+        {/* Mobile Top Row / Desktop Left Side */}
+        <div className="w-full flex justify-between items-center md:w-auto">
+          <div className="flex items-center gap-8">
+            <button className="md:hidden p-2">
+              <Menu size={24} />
+            </button>
+            <nav className="hidden md:flex gap-8 text-[10px] uppercase tracking-[0.2em] font-bold opacity-60">
+              <a href="#services" className="hover:opacity-100 transition-opacity">Services</a>
+              <a href="#about" className="hover:opacity-100 transition-opacity">Studio</a>
+              <a href="#social" className="hover:opacity-100 transition-opacity">Journal</a>
+            </nav>
+          </div>
+          
+          {/* Mobile Book Now */}
+          <button onClick={onBookClick} className="btn-primary md:hidden">
+            Book Now
           </button>
-          <nav className="hidden md:flex gap-8 text-[10px] uppercase tracking-[0.2em] font-bold opacity-60">
-            <a href="#services" className="hover:opacity-100 transition-opacity">Services</a>
-            <a href="#about" className="hover:opacity-100 transition-opacity">Studio</a>
-            <a href="#social" className="hover:opacity-100 transition-opacity">Journal</a>
-          </nav>
         </div>
         
-        <div className="absolute left-1/2 -translate-x-1/2 w-full text-center px-4">
+        {/* Logo: Below buttons on mobile, absolute center on desktop */}
+        <div className="mt-6 md:mt-0 md:absolute md:left-1/2 md:-translate-x-1/2 w-full text-center px-4">
           <h1 className="text-4xl md:text-7xl font-serif italic tracking-tighter whitespace-nowrap">Groom Dog City</h1>
         </div>
 
-        <button onClick={onBookClick} className="btn-primary">
+        {/* Desktop Book Now */}
+        <button onClick={onBookClick} className="btn-primary hidden md:block">
           Book Now
         </button>
       </div>
