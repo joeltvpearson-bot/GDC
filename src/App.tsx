@@ -255,8 +255,8 @@ const Header = ({ onBookClick }: { onBookClick: () => void }) => {
           </nav>
         </div>
         
-        <div className="absolute left-1/2 -translate-x-1/2">
-          <h1 className="text-7xl font-serif italic tracking-tighter">Groom Dog City</h1>
+        <div className="absolute left-1/2 -translate-x-1/2 w-full text-center px-4">
+          <h1 className="text-4xl md:text-7xl font-serif italic tracking-tighter whitespace-nowrap">Groom Dog City</h1>
         </div>
 
         <button onClick={onBookClick} className="btn-primary">
@@ -274,17 +274,17 @@ const Hero = () => {
   const rotate = useTransform(scrollY, [0, 500], [0, 45]);
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 overflow-hidden">
+    <section className="relative min-h-screen flex flex-col items-center justify-center pt-48 md:pt-32 pb-20 overflow-hidden">
       {/* Floating Elements */}
       <motion.div 
         style={{ y: y1, rotate }}
-        className="absolute top-1/4 left-[10%] opacity-10 pointer-events-none"
+        className="absolute top-1/4 left-[10%] opacity-10 pointer-events-none hidden md:block"
       >
         <Scissors size={120} strokeWidth={0.5} />
       </motion.div>
       <motion.div 
         style={{ y: y2, rotate: -rotate }}
-        className="absolute bottom-1/4 right-[10%] opacity-10 pointer-events-none"
+        className="absolute bottom-1/4 right-[10%] opacity-10 pointer-events-none hidden md:block"
       >
         <Scissors size={100} strokeWidth={0.5} className="scale-x-[-1]" />
       </motion.div>
@@ -295,13 +295,13 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="text-[10px] uppercase tracking-[0.4em] font-bold opacity-40 mb-6 block">Est. London 2012</span>
-          <h2 className="text-6xl md:text-8xl font-serif leading-[0.9] mb-8">
+          <span className="text-[10px] uppercase tracking-[0.4em] font-bold opacity-40 mb-6 block">Award-Winning London Dog Groomers Since 2012</span>
+          <h2 className="text-5xl md:text-8xl font-serif leading-[0.9] mb-8">
             The Art of the <br />
             <span className="italic">Canine Cut.</span>
           </h2>
-          <p className="text-lg md:text-xl max-w-2xl mx-auto opacity-70 font-light leading-relaxed mb-12">
-            London’s Premier Destination for Bespoke Grooming. From Islington to the East End, we provide precision styling and holistic care for the city’s most discerning dogs.
+          <p className="text-base md:text-xl max-w-2xl mx-auto opacity-70 font-light leading-relaxed mb-12">
+            Experience London’s premier destination for bespoke dog grooming. From Islington to Shoreditch, we provide precision styling, holistic canine care, and expert hand-stripping for the city’s most discerning pets.
           </p>
         </motion.div>
 
