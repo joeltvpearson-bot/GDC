@@ -14,10 +14,13 @@ import {
   X, 
   Clock, 
   Check,
-  Menu
+  Menu,
+  Phone,
+  Sparkles
 } from 'lucide-react';
 
 // --- Types ---
+type ToastType = 'booking' | 'calling' | null;
 type Service = {
   id: string;
   name: string;
@@ -232,7 +235,7 @@ const BookingModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
   );
 };
 
-const Header = ({ onBookClick }: { onBookClick: () => void }) => {
+const Header = ({ onBookClick, onCallClick }: { onBookClick: () => void; onCallClick: () => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -257,10 +260,15 @@ const Header = ({ onBookClick }: { onBookClick: () => void }) => {
             </nav>
           </div>
           
-          {/* Mobile Book Now */}
-          <button onClick={onBookClick} className="btn-primary md:hidden">
-            Book Now
-          </button>
+          {/* Mobile Actions */}
+          <div className="flex items-center gap-2 md:hidden">
+            <button onClick={onCallClick} className="p-3 rounded-full bg-charcoal/5 border border-charcoal/10">
+              <Phone size={18} />
+            </button>
+            <button onClick={onBookClick} className="btn-primary">
+              Book Now
+            </button>
+          </div>
         </div>
         
         {/* Logo: Below buttons on mobile, absolute center on desktop */}
@@ -268,16 +276,25 @@ const Header = ({ onBookClick }: { onBookClick: () => void }) => {
           <h1 className="text-4xl md:text-7xl font-serif italic tracking-tighter whitespace-nowrap">Groom Dog City</h1>
         </div>
 
-        {/* Desktop Book Now */}
-        <button onClick={onBookClick} className="btn-primary hidden md:block">
-          Book Now
-        </button>
+        {/* Desktop Actions */}
+        <div className="hidden md:flex items-center gap-4">
+          <button 
+            onClick={onCallClick}
+            className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold opacity-60 hover:opacity-100 transition-opacity"
+          >
+            <Phone size={14} />
+            <span>Call Us</span>
+          </button>
+          <button onClick={onBookClick} className="btn-primary">
+            Book Now
+          </button>
+        </div>
       </div>
     </header>
   );
 };
 
-const Hero = () => {
+const Hero = ({ onBookClick, onCallClick }: { onBookClick: () => void; onCallClick: () => void }) => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, -100]);
   const y2 = useTransform(scrollY, [0, 500], [0, 100]);
@@ -313,6 +330,19 @@ const Hero = () => {
           <p className="text-base md:text-xl max-w-2xl mx-auto opacity-70 font-light leading-relaxed mb-12">
             Experience London’s premier destination for bespoke dog grooming. From Islington to Shoreditch, we provide precision styling, holistic canine care, and expert hand-stripping for the city’s most discerning pets.
           </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <button onClick={onBookClick} className="btn-primary w-full sm:w-auto py-5 px-12 text-sm">
+              Book Your Appointment
+            </button>
+            <button 
+              onClick={onCallClick}
+              className="flex items-center justify-center gap-3 w-full sm:w-auto py-5 px-12 rounded-full border border-charcoal/10 hover:border-charcoal transition-all text-xs uppercase tracking-widest font-bold"
+            >
+              <Phone size={16} />
+              Call the Studio
+            </button>
+          </div>
         </motion.div>
 
         <motion.div 
@@ -486,13 +516,30 @@ const Footer = () => {
 
 export default function App() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [toast, setToast] = useState<ToastType>(null);
+
+  const handleBookClick = () => {
+    setToast('booking');
+    setTimeout(() => {
+      setToast(null);
+      setIsBookingOpen(true);
+    }, 1200);
+  };
+
+  const handleCallClick = () => {
+    setToast('calling');
+    setTimeout(() => {
+      setToast(null);
+      window.location.href = 'tel:+447367017770';
+    }, 1200);
+  };
 
   return (
     <div className="selection:bg-charcoal selection:text-white">
-      <Header onBookClick={() => setIsBookingOpen(true)} />
+      <Header onBookClick={handleBookClick} onCallClick={handleCallClick} />
       
       <main>
-        <Hero />
+        <Hero onBookClick={handleBookClick} onCallClick={handleCallClick} />
         <Services />
         <InstagramGrid />
       </main>
@@ -500,14 +547,46 @@ export default function App() {
       <Footer />
 
       {/* Mobile Floating Action Button */}
-      <motion.button 
+      <motion.div 
         initial={{ y: 100 }}
         animate={{ y: 0 }}
-        onClick={() => setIsBookingOpen(true)}
-        className="md:hidden fixed bottom-8 right-8 z-50 bg-charcoal text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center"
+        className="md:hidden fixed bottom-8 right-8 z-50 flex flex-col gap-3"
       >
-        <Calendar size={24} />
-      </motion.button>
+        <button 
+          onClick={handleCallClick}
+          className="bg-white text-charcoal w-14 h-14 rounded-full shadow-2xl flex items-center justify-center border border-charcoal/10"
+        >
+          <Phone size={20} />
+        </button>
+        <button 
+          onClick={handleBookClick}
+          className="bg-charcoal text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center"
+        >
+          <Calendar size={24} />
+        </button>
+      </motion.div>
+
+      {/* Dynamic Action Toast */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div 
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="fixed bottom-12 left-1/2 -translate-x-1/2 z-[60] bg-charcoal text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-4 border border-white/10"
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+            >
+              <Sparkles size={18} className="text-gold" />
+            </motion.div>
+            <span className="text-xs uppercase tracking-widest font-bold">
+              {toast === 'booking' ? 'Opening Concierge...' : 'Connecting to Studio...'}
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
     </div>
