@@ -246,48 +246,52 @@ const Header = ({ onBookClick, onCallClick }: { onBookClick: () => void; onCallC
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${isScrolled ? 'bg-oatmeal/80 backdrop-blur-md py-4 shadow-sm' : 'py-8'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center md:justify-between relative">
-        {/* Mobile Top Row / Desktop Left Side */}
-        <div className="w-full flex justify-between items-center md:w-auto">
-          <div className="flex items-center gap-8">
-            <button className="md:hidden p-2">
-              <Menu size={24} />
-            </button>
-            <nav className="hidden md:flex gap-8 text-[10px] uppercase tracking-[0.2em] font-bold opacity-60">
-              <a href="#services" className="hover:opacity-100 transition-opacity">Services</a>
-              <a href="#about" className="hover:opacity-100 transition-opacity">Studio</a>
-              <a href="#social" className="hover:opacity-100 transition-opacity">Journal</a>
-            </nav>
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Desktop Layout: 3 Columns */}
+        <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center gap-8">
+          {/* Left: Nav */}
+          <nav className="flex gap-8 text-[10px] uppercase tracking-[0.2em] font-bold opacity-60">
+            <a href="#services" className="hover:opacity-100 transition-opacity">Services</a>
+            <a href="#about" className="hover:opacity-100 transition-opacity">Studio</a>
+            <a href="#social" className="hover:opacity-100 transition-opacity">Journal</a>
+          </nav>
+
+          {/* Center: Logo */}
+          <div className="px-4">
+            <h1 className="text-7xl font-serif italic tracking-tighter whitespace-nowrap">Groom Dog City</h1>
           </div>
-          
-          {/* Mobile Actions */}
-          <div className="flex items-center gap-2 md:hidden">
-            <button onClick={onCallClick} className="p-3 rounded-full bg-charcoal/5 border border-charcoal/10">
-              <Phone size={18} />
+
+          {/* Right: Actions */}
+          <div className="flex justify-end items-center gap-6">
+            <button 
+              onClick={onCallClick}
+              className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold opacity-60 hover:opacity-100 transition-opacity"
+            >
+              <Phone size={14} />
+              <span>Call Us</span>
             </button>
             <button onClick={onBookClick} className="btn-primary">
               Book Now
             </button>
           </div>
         </div>
-        
-        {/* Logo: Below buttons on mobile, absolute center on desktop */}
-        <div className="mt-6 md:mt-0 md:absolute md:left-1/2 md:-translate-x-1/2 w-full text-center px-4">
-          <h1 className="text-4xl md:text-7xl font-serif italic tracking-tighter whitespace-nowrap">Groom Dog City</h1>
-        </div>
 
-        {/* Desktop Actions */}
-        <div className="hidden md:flex items-center gap-4">
-          <button 
-            onClick={onCallClick}
-            className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold opacity-60 hover:opacity-100 transition-opacity"
-          >
-            <Phone size={14} />
-            <span>Call Us</span>
-          </button>
-          <button onClick={onBookClick} className="btn-primary">
-            Book Now
-          </button>
+        {/* Mobile Layout: Stacked */}
+        <div className="md:hidden flex flex-col items-center">
+          <div className="w-full flex justify-between items-center mb-6">
+            <button className="p-2">
+              <Menu size={24} />
+            </button>
+            <div className="flex items-center gap-2">
+              <button onClick={onCallClick} className="p-3 rounded-full bg-charcoal/5 border border-charcoal/10">
+                <Phone size={18} />
+              </button>
+              <button onClick={onBookClick} className="btn-primary">
+                Book Now
+              </button>
+            </div>
+          </div>
+          <h1 className="text-4xl font-serif italic tracking-tighter whitespace-nowrap">Groom Dog City</h1>
         </div>
       </div>
     </header>
